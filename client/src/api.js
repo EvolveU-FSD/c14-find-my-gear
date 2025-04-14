@@ -1,6 +1,6 @@
 
-export async function findAllPlaygroundEquipment() {
-    const fetchResult = await fetch('/api/playgroundEquipment')    
+export async function findAllPlaygroundEquipment(north, east, south, west) {
+    const fetchResult = await fetch(`/api/playgroundEquipment?north=${north}&east=${east}&south=${south}&west=${west}`)    
     if (fetchResult.ok) {
       return await fetchResult.json()
     }

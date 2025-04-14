@@ -1,12 +1,16 @@
 import { Router } from "express"
-import { findAllPlaygroundEquipment, findPlaygroundEquipmentById } from "../models/playgroundEquipment.js"
+import { findPlaygroundEquipmentInBoundingBox, findPlaygroundEquipmentById } from "../models/playgroundEquipment.js"
 
 const router = Router()
 
 // list all playground equipment
 router.get('/', async function (req, res) {
     try {
-        const equipment = await findAllPlaygroundEquipment()
+        const north = Number.parseFloat(req.query.north)
+        const west = Number.parseFloat(req.query.west)
+        const south = Number.parseFloat(req.query.south)
+        const east = Number.parseFloat(req.query.east)
+        const equipment = await findPlaygroundEquipmentInBoundingBox(north, west, south, east)
         res.send(equipment)
     }
     catch (error) {

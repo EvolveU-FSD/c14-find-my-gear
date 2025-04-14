@@ -1,21 +1,22 @@
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent, useMapEvents } from 'react-leaflet'
-import './App.css'
 import { useEffect, useState } from 'react'
 import { findAllPlaygroundEquipment } from './api'
 
+import './App.css'
 
 function UserLocation() {
   const [position, setPosition] = useState(null)
 
   const map = useMapEvents({
-    click() {
-      map.locate()
-    },
     locationfound(e) {
       setPosition(e.latlng)
       map.flyTo(e.latlng, map.getZoom())
     },
   })
+
+  useEffect(() => {
+    map.locate()
+  }, [])
 
   return position && (
     <Marker position={position}>

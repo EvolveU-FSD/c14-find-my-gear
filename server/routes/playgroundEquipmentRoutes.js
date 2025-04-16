@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { findPlaygroundEquipmentInBoundingBox, findPlaygroundEquipmentById } from "../models/playgroundEquipment.js"
+import { findPlaygroundEquipmentInBoundingBox, findPlaygroundEquipmentById, findAllPlaygroundEquipment } from "../models/playgroundEquipment.js"
 
 const router = Router()
 
@@ -10,7 +10,14 @@ router.get('/', async function (req, res) {
         const west = Number.parseFloat(req.query.west)
         const south = Number.parseFloat(req.query.south)
         const east = Number.parseFloat(req.query.east)
-        const equipment = await findPlaygroundEquipmentInBoundingBox(north, west, south, east)
+        let equipment 
+        if (Number.isNaN(north)) {
+            equipment = await findPlaygroundEquipmentInBoundingBox(north, west, south, east)
+        } 
+        else {
+            equipment = await findAllPlaygroundEquipment()
+        }
+
         res.send(equipment)
     }
     catch (error) {
